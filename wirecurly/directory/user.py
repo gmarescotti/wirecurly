@@ -6,9 +6,10 @@ __all__ = ['User']
         
 class User(object):
     """A user object for the directory"""
-    def __init__(self, user_id, password=None):
+    def __init__(self, user_id, number_alias=None, password=None):
         super(User, self).__init__()
         self.user_id = user_id
+        if number_alias: self.number_alias = number_alias
         self.variables = []
         self.parameters = []
         if password:
@@ -73,4 +74,7 @@ class User(object):
             children.append({'tag': 'variables', 'children': [
                             {'tag': 'variable', 'attrs': v} for v in self.variables
                         ]})
-        return {'tag': 'user', 'children': children, 'attrs': {'id': self.user_id}}
+        attrs = {'id': self.user_id}
+        if self.number_alias:
+            attrs.update({'number_alias': self.number_alias})
+        return {'tag': 'user', 'children': children, 'attrs': attrs}
