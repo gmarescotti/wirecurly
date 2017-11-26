@@ -4,6 +4,8 @@
 import sys
 import logging
 
+log = logging.getLogger(__name__)
+
 try:
 	from lxml import etree
 except ImportError:
@@ -11,9 +13,6 @@ except ImportError:
 	sys.exit(1)
 
 __all__ = ['XMLFileFactory', 'XMLFileFactory', 'XMLCurlFactory']
-
-log = logging.getLogger(__name__)
-
 
 class XMLFactory(object):
 	"""Base factory for XML generation
@@ -23,10 +22,10 @@ class XMLFactory(object):
 	"""
 	def __init__(self, data):
 		super(XMLFactory, self).__init__()
-                if isinstance(data, list):
-                    self.data = dict(children=data)
-                else:
-		    self.data = data
+		if isinstance(data, list):
+			self.data = dict(children=data)
+		else:
+			self.data = data
 		
 	
 	def _typecastAttributes(self, d):
@@ -57,10 +56,10 @@ class XMLFactory(object):
 
 		:rtype: str - A string generated XML for `data`
 		'''
-                if root != None and self.data.get('tag') == None:
-                    self.root = root
-                else:
-		    self.root = etree.Element(self.data.get('tag'), **self._typecastAttributes(self.data.get('attrs', {})))
+		if root != None and self.data.get('tag') == None:
+			self.root = root
+		else:
+			self.root = etree.Element(self.data.get('tag'), **self._typecastAttributes(self.data.get('attrs', {})))
 
 		if self.data.get('children'):
 			self._parseChildren(self.data.get('children'), self.root)
@@ -132,8 +131,8 @@ class XMLCurlFactory(XMLFactory):
 		document = etree.Element('document', type='freeswitch/xml')
 		element = etree.SubElement(document, 'section', name=self.section)
 		self.getXML(element)
-                if element != self.root:
-		    element.append(self.root)
+		if element != self.root:
+			element.append(self.root)
 		return etree.tostring(document, pretty_print=True, encoding='utf-8', xml_declaration=True)
 
 	def not_found(self):

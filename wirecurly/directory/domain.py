@@ -105,13 +105,18 @@ class Domain(object):
                             {'tag': 'variable', 'attrs': v} for v in self.variables
                         ]})
 
-        if self.users:
-            children.extend([u.todict() for u in self.users])
+        # if self.users:
+        users_children = [u.todict() for u in self.users]
+            
+        # if self.group is None: children.extend(users_children)
 
         if self.group is not None:
-            users = [{'tag': 'users', 'children': children}]
+            users = [{'tag': 'users', 'children': users_children}]
             group = [{'tag': 'group', 'children': users, 'attrs': {'name': self.group}}]
             groups = [{'tag': 'groups', 'children': group}]
-            return {'tag': 'domain', 'children': groups, 'attrs': {'name': self.domain}}
+            children.extend(groups)
+            return {'tag': 'domain', 'children': children, 'attrs': {'name': self.domain}}
         else:
+            users = [{'tag': 'users', 'children': users_children}]
+            children.extend(users)
             return {'tag': 'domain', 'children': children, 'attrs': {'name': self.domain}}
