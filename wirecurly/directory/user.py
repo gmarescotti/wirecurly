@@ -9,7 +9,7 @@ class User(object):
     def __init__(self, user_id, number_alias=None, password=None):
         super(User, self).__init__()
         self.user_id = user_id
-        if number_alias: self.number_alias = number_alias
+        self.number_alias = number_alias
         self.variables = []
         self.parameters = []
         if password:
