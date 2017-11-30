@@ -29,7 +29,9 @@ class Condition(object):
             '''
             if self.existAction(act,val):   
                 log.warning('Replacing existing action!')
-            self.actions.append({'application' : act , 'data' : val, 'inline' : inline})
+            ret = {'application' : act , 'data' : val}
+            if inline: ret.update({'inline' : inline})
+            self.actions.append(ret)
 
     def addAntiAction(self,act,val,inline=False):
             '''
