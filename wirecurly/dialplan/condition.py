@@ -23,13 +23,14 @@ class Condition(object):
         self.actions = []
         self.antiactions = []
 
-    def addAction(self,act,val,inline=False):
+    def addAction(self,act,val=None,inline=False):
             '''
                 Set a new action for this condition
             '''
             if self.existAction(act,val):   
                 log.warning('Replacing existing action!')
-            ret = {'application' : act , 'data' : val}
+            ret = {'application' : act}
+            if val != None: ret.update({'data' : val})
             if inline: ret.update({'inline' : inline})
             self.actions.append(ret)
 
