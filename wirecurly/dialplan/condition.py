@@ -41,7 +41,10 @@ class Condition(object):
             if self.existAntiAction(act,val):
                 log.warning('Replacing existing anti-action!')
 
-            self.antiactions.append({'application' : act , 'data' : val, 'inline' : inline})
+            ret = {'application' : act}
+            if val != None: ret.update({'data' : val})
+            if inline: ret.update({'inline' : inline})
+            self.antiactions.append(ret)
             return
 
     def addApplication(self, app,inline=False):
@@ -53,6 +56,16 @@ class Condition(object):
             raise NoSuchApplication
         else:
             self.addAction(app.app_name, app.data, inline)
+
+    def addAntiApplication(self, app,inline=False):
+        '''
+            Add an application as an anti-action.
+            An application must have 2 attributes. app_name and data.
+        '''
+        if not hasattr(app, 'app_name') or not hasattr(app, 'data'):
+            raise NoSuchApplication
+        else:
+            self.addAntiAction(app.app_name, app.data, inline)
 
     def existAction(self,act,val,inline=False):
             '''

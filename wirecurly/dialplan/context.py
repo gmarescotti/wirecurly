@@ -42,3 +42,9 @@ class Context(object):
         c = Condition()
         extension.addCondition(c)
         return c
+    
+    def addExternalExtension(self, extension):
+        '''
+            Add an extension already instantiated externally
+        '''
+        self.extensions.append(extension)

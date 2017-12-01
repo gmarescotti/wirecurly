@@ -8,9 +8,9 @@ class Answer(ApplicationBase):
 	@property
 	def data(self):
 		'''
-			Answer does not need data, so return empty string.
+			Answer does not need data, so return None.
 		'''
-		return ''
+		return None
 
 class Sleep(ApplicationBase):
 	"""The sleep application"""
@@ -25,6 +25,26 @@ class Sleep(ApplicationBase):
 		'''
 		return '%s' % self.time_in_ms
 
+class BindMetaData(ApplicationBase):
+	'''
+		The bind_meta_data application: 
+		https://wiki.freeswitch.org/wiki/Misc._Dialplan_Tools_bind_meta_app
+	'''
+	def __init__(self, key, listen_to="b", flags="s", app="execute_extension", params=None):
+		super(BindMetaData, self).__init__('bind_meta_data')
+		self.key = key
+		self.listen_to = listen_to
+		self.flags = flags
+		self.app = app
+		self.params = params
+		
+	@property
+	def data(self):
+		'''
+			BindMetaData needs to return meta data in proper syntax.
+		'''
+		return '%(key)s %(listen_to)s %(flags)s %(app)s::%(params)s' % self.__dict__
+
 class Set(ApplicationBase):
 	"""Set a variable on the current executing channel"""
 	def __init__(self, variable, value):
@@ -38,6 +58,48 @@ class Set(ApplicationBase):
 			Set needs return a string
 		'''
 		return '%s=%s' % (self.variable, self.value)
+
+class Eval(ApplicationBase):
+	"""The Eval application"""
+	def __init__(self, text):
+		super(Eval, self).__init__('eval')
+		self.text = text
+
+	@property
+	def data(self):
+		'''
+			Eval needs return a string
+		'''
+		return '%s' % self.text
+		
+class Transfer(ApplicationBase):
+	"""The Transfer application"""
+	def __init__(self, text):
+		super(Transfer, self).__init__('transfer')
+		self.text = text
+
+	@property
+	def data(self):
+		'''
+			Eval needs return a string
+		'''
+		return '%s' % self.text
+		
+class Hash(ApplicationBase):
+	"""Set a variable on the hash"""
+	def __init__(self, op, realm, key, value):
+		super(Hash, self).__init__('hash')
+		self.op = op
+		self.realm = realm
+		self.key = key
+		self.value = value
+
+	@property
+	def data(self):
+		'''
+			Set needs return a string
+		'''
+		return '%s/%s/%s/%s' % (self.op, self.realm, self.key, self.value)
 		
 class Export(ApplicationBase):
 	"""Export a variable on the other b leg"""

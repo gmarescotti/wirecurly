@@ -68,5 +68,8 @@ class Extension(object):
 
 
 
-		return {'tag': 'extension', 'children': children, 'attrs': {'name': self.extension, 'continue': str(self.continue_)}}
+		ret = {'tag': 'extension', 'children': children, 'attrs': {'name': self.extension }}
+		if self.continue_: 
+			ret['attrs'].update({'continue': str(self.continue_)})
+		return ret
 		
