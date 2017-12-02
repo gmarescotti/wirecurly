@@ -118,3 +118,20 @@ class Export(ApplicationBase):
 			return 'nolocal:%s=%s' % (self.variable, self.value)
 		else:
 			return '%s=%s' % (self.variable, self.value)
+
+class ExecuteOnAnswer(ApplicationBase):
+    """ExecuteOnAnswer a variable on the other b leg"""
+    def __init__(self, cmd, nolocal=True):
+        super(ExecuteOnAnswer, self).__init__('export')
+        self.cmd = cmd
+        self.nolocal = nolocal
+
+    @property
+    def data(self):
+        '''
+            Set needs return a string
+        '''
+        if self.nolocal:
+            return 'nolocal:execute_on_answer=%s' % self.cmd
+        else:
+            return 'execute_on_answer=%s' % self.cmd
