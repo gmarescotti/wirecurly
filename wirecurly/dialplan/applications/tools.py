@@ -25,13 +25,13 @@ class Sleep(ApplicationBase):
 		'''
 		return '%s' % self.time_in_ms
 
-class BindMetaData(ApplicationBase):
+class BindMetaApp(ApplicationBase):
 	'''
-		The bind_meta_data application: 
+		The bind_meta_app application: 
 		https://wiki.freeswitch.org/wiki/Misc._Dialplan_Tools_bind_meta_app
 	'''
 	def __init__(self, key, listen_to="b", flags="s", app="execute_extension", params=None):
-		super(BindMetaData, self).__init__('bind_meta_data')
+		super(BindMetaApp, self).__init__('bind_meta_app')
 		self.key = key
 		self.listen_to = listen_to
 		self.flags = flags
@@ -41,7 +41,7 @@ class BindMetaData(ApplicationBase):
 	@property
 	def data(self):
 		'''
-			BindMetaData needs to return meta data in proper syntax.
+			BindMetaApp needs to return meta data in proper syntax.
 		'''
 		return '%(key)s %(listen_to)s %(flags)s %(app)s::%(params)s' % self.__dict__
 
