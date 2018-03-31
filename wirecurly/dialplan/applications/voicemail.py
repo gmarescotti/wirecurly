@@ -5,9 +5,9 @@ class Voicemail(ApplicationBase):
 	def __init__(self, datastring, use_bridge=False):
 		self.use_bridge = use_bridge
 		if use_bridge:
-			super(Voicemail, self).__init__('voicemail')
-		else:
 			super(Voicemail, self).__init__('bridge')
+		else:
+			super(Voicemail, self).__init__('voicemail')
 		self.datastring = datastring
 
 	@property
