@@ -10,4 +10,6 @@ class ApplicationBase(object):
 			Method that all must implement to provide data.
 		'''
 		raise NotImplementedError
-		
+	
+	def __repr__(self):
+		return "Application '%s': data=%s" % (self.app_name, self.data)
