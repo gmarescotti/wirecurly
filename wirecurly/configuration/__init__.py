@@ -69,10 +69,11 @@ class Configuration(object):
 
 class Section(object):
     """A section of a configuration object"""
-    def __init__(self, name):
+    def __init__(self, name, attrs=None):
         super(Section, self).__init__()
         self.name = name
         self.variables = []
+        self.attrs = attrs
         
 
     def addVariable(self, variable):
@@ -85,7 +86,9 @@ class Section(object):
         '''
             Convert Section to a dictionary
         '''
-        children = []
         children = [v.todict() for v in self.variables]
         
-        return {'tag': self.name, 'children': children}
+        if self.attrs:
+            return {'tag': self.name, 'children': children, 'attrs': self.attrs}
+        else:
+            return {'tag': self.name, 'children': children}
