@@ -97,7 +97,7 @@ class Hash(ApplicationBase):
 	@property
 	def data(self):
 		'''
-			Set needs return a string
+			Hash needs return a string
 		'''
 		return '%s/%s/%s/%s' % (self.op, self.realm, self.key, self.value)
 		
@@ -112,7 +112,7 @@ class Export(ApplicationBase):
 	@property
 	def data(self):
 		'''
-			Set needs return a string
+			Export needs return a string
 		'''
 		if self.nolocal:
 			return 'nolocal:%s=%s' % (self.variable, self.value)
@@ -129,9 +129,24 @@ class ExecuteOnAnswer(ApplicationBase):
 	@property
 	def data(self):
 		'''
-			Set needs return a string
+			ExecuteOnAnswer needs return a string
 		'''
 		if self.nolocal:
 			return 'nolocal:execute_on_answer=%s' % self.cmd
 		else:
 			return 'execute_on_answer=%s' % self.cmd
+
+class Log(ApplicationBase):
+	"""log a message in freeswitch log"""
+	def __init__(self, msg, level="DEBUG"):
+		super(Log, self).__init__('log')
+		self.msg = msg
+		self.level = level
+
+	@property
+	def data(self):
+		'''
+			Log needs return a string
+		'''
+		return '%s %s' % (self.level, self.msg)
+
