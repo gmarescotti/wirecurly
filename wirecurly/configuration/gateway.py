@@ -1,4 +1,6 @@
 import logging
+from wirecurly.configuration import Section
+
 
 log = logging.getLogger(__name__)
 
@@ -10,7 +12,7 @@ class Gateway(object):
         super(Gateway, self).__init__()
         self.name = name
         self.parameters = []
-
+        self.variables = []
 
     def addParameter(self, param, val):
         '''Set an extra parameter for a gateway
@@ -43,6 +45,40 @@ class Gateway(object):
 
         raise ValueError
 
+    def addVariable(self, var, val, direction=None):
+        '''Set an extra parameter for a gateway
+
+        :param var: The variable to add
+        :type var: str
+        :param val: The value of the variable
+        :type val: str
+        :raises: ValueError -- in case the variable already exists
+        '''
+        try:
+            self.getVariable(var)
+        except ValueError:
+            if direction:
+                self.variables.append({'name': var, 'value': val, 'direction': direction})
+            else:
+                self.variables.append({'name': var, 'value': val})
+            return
+
+        log.warning('Cannot replace existing variable.')
+        raise ValueError
+
+    def getVariable(self, var):
+        '''Retrieve the value of a variable by its name
+
+        :rtype: str
+
+        :raises: ValueError -- in case the variable does not exist
+        '''
+        for p in self.variables:
+            if p.get('name') == var:
+                return p.get('value')
+
+        raise ValueError
+
 
     def todict(self):
         '''Create a dict so it can be converted/serialized
@@ -52,5 +88,8 @@ class Gateway(object):
         if self.parameters:
             children =[{'tag': 'param', 'attrs': p} for p in self.parameters]
         
+        if self.variables:
+            children =[{'tag': 'params', 'children': children}]
+            children.append({'tag': 'variables', 'children': [{'tag': 'variable', 'attrs': p} for p in self.variables]})
     
         return {'tag': 'gateway', 'children': children, 'attrs': {'name': self.name}}
