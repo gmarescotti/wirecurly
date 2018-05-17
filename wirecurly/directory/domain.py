@@ -11,6 +11,7 @@ class Domain(object):
         self.domain = name
         self.group = None
         self.users = []
+        self.elements = []
         self.parameters = None
         self.variables = None
 
@@ -43,6 +44,13 @@ class Domain(object):
         :type user: object
         '''
         self.users.append(user)
+
+    def addSection(self, element):
+        '''
+            Add a subelement to the domain.
+        '''
+        if not element.isEmpty():
+            self.elements.append(element.todict())
 
     def addGateway(self, gateway):
         '''Add a gateway to domain
@@ -104,6 +112,9 @@ class Domain(object):
             children.append({'tag': 'variables', 'children': [
                             {'tag': 'variable', 'attrs': v} for v in self.variables
                         ]})
+
+        if self.elements:
+            children.extend(self.elements)
 
         # if self.users:
         users_children = [u.todict() for u in self.users]

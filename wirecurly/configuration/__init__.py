@@ -74,7 +74,9 @@ class Section(object):
         self.name = name
         self.variables = []
         self.attrs = attrs
-        
+    
+    def isEmpty(self):
+        return len(self.variables) == 0
 
     def addVariable(self, variable):
         '''
