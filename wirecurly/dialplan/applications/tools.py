@@ -12,6 +12,18 @@ class Answer(ApplicationBase):
 		'''
 		return None
 
+class Park(ApplicationBase):
+	"""The park application"""
+	def __init__(self):
+		super(Park, self).__init__('park')
+		
+	@property
+	def data(self):
+		'''
+			Park does not need data, so return None.
+		'''
+		return None
+
 class Sleep(ApplicationBase):
 	"""The sleep application"""
 	def __init__(self, time_in_ms):
