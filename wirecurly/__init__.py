@@ -1,1 +1,1 @@
-from serialize import XMLFileFactory, XMLCurlFactory
+from .serialize import XMLFileFactory, XMLCurlFactory
