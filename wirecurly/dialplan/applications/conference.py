@@ -2,11 +2,11 @@ from wirecurly.dialplan.applications import ApplicationBase
 
 class Conference(ApplicationBase):
 	"""The conference application"""
-	def __init__(self, conf_name, profile='default'):
+	def __init__(self, conf_name, profile='default', pin=None):
 		super(Conference, self).__init__('conference')
 		self.conf_name = conf_name
 		self.profile = profile
-		self.pin = None
+		self.pin = pin
 
 	@property
 	def data(self):
